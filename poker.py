@@ -1,17 +1,20 @@
 import random
 from collections import Counter
 
-# Farben und Symbole für das Deck
-FARBEN = ['Herz', 'Karo', 'Pik', 'Kreuz']
-SYMBOLEN = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Bube', 'Dame', 'König', 'Ass']
+
+#F Strings an 2 stellen und unittest klassen erstellen
 
 # Deck erstellen
 def erstelle_deck():
+    # Farben und Symbole für das Deck
+    FARBEN = ['Herz', 'Karo', 'Pik', 'Kreuz']
+    SYMBOLEN = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Bube', 'Dame', 'König', 'Ass']
     return [(symbol, farbe) for farbe in FARBEN for symbol in SYMBOLEN]
 
 # 5 karten zufällig
 def ziehe_fuenf_karten(deck):
     return random.sample(deck, 5)
+
 
 # kombinationen prüfen
 def ist_paar(hand):
@@ -78,15 +81,33 @@ def berechne_prozentuale_anteile(ergebnisse, spiele_anzahl):
     return anteile
 
 
-spiele_anzahl = 100_000
-ergebnisse = spiele_poker_simulation(spiele_anzahl)
-anteile = berechne_prozentuale_anteile(ergebnisse, spiele_anzahl)
+def main():
+    spiele_anzahl = 100_000
+    starten = input("Etwas Tippen zum Starten:")
+    ziehe_fuenf_karten(erstelle_deck())
+    ist_paar(ziehe_fuenf_karten(erstelle_deck()))
+    ist_drilling(ziehe_fuenf_karten(erstelle_deck()))
+    ist_vierling(ziehe_fuenf_karten(erstelle_deck()))
+    ist_full_house(ziehe_fuenf_karten(erstelle_deck()))
+    ist_flush(ziehe_fuenf_karten(erstelle_deck()))
+    ist_strasse(ziehe_fuenf_karten(erstelle_deck()))
+    spiele_poker_simulation(spiele_anzahl)
+
+    ergebnisse = spiele_poker_simulation(spiele_anzahl)
+    berechne_prozentuale_anteile(ergebnisse, spiele_anzahl)
 
 
-print("Ergebnisse der Simulation:")
-for kombination, anzahl in ergebnisse.items():
-    print(f"{kombination}: {anzahl}")
 
-print("\nProzentuale Anteile:")
-for kombination, anteil in anteile.items():
-    print(f"{kombination}: {anteil:.2f}%")
+    anteile = berechne_prozentuale_anteile(ergebnisse, spiele_anzahl)
+
+    print("Ergebnisse der Simulation:")
+    for kombination, anzahl in ergebnisse.items():
+        print(f"{kombination}: {anzahl}")
+
+    print("\nProzentuale Anteile:")
+    for kombination, anteil in anteile.items():
+        print(f"{kombination}: {anteil:.2f}%")
+
+
+if __name__ == "__main__":
+    main()
